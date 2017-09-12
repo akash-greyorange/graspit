@@ -114,10 +114,14 @@ SearchEnergy::legal() const
     //actually involve the hand
     bool collision = mHand->getWorld()->noCollision(mHand) ;
     if(collision)
+    {
         DBGA("Hand is not in collision with environment");
+    }
     else
+    {
         DBGA("Hand is in collision with environment");
-        
+    }
+
     return collision ;
 
     /*
