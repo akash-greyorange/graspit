@@ -112,7 +112,13 @@ SearchEnergy::legal() const
     //full collision detection
     //if the hand is passed as an argument, this should only check for collisions that
     //actually involve the hand
-    return mHand->getWorld()->noCollision(mHand);
+    bool collision = mHand->getWorld()->noCollision(mHand) ;
+    if(collision)
+        DBGA("Hand is not in collision with environment");
+    else
+        DBGA("Hand is in collision with environment");
+        
+    return collision ;
 
     /*
     //check only palm
