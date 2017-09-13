@@ -191,6 +191,12 @@ EGPlanner::checkTerminationConditions()
 			stopPlanner();
 		}
 	}
+	else if((mBestList.back()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 30100))
+	{
+		DBGA("Stopping planner since energy crossed threshold");
+		pausePlanner();
+		termination = true ;
+	}
 	if (termination) {
 		Q_EMIT complete();
 	}
@@ -301,12 +307,6 @@ void EGPlanner::threadLoop()
 				break;
 			case RUNNING:
 				mainLoop();
-				if((mBestList.back()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 30100))
-				{
-					DBGA("Stopping planner since energy crossed threshold");
-					pausePlanner();
-					Q_EMIT complete();
-				}
 				break;
 			case DONE:
 				done = true;
