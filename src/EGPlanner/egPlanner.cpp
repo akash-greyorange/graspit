@@ -45,6 +45,8 @@
 //#define PROF_ENABLED
 #include "profiling.h"
 
+#include <stdio.h>
+
 #define MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED                     (5.0)
 
 PROF_DECLARE(EG_PLANNER);
@@ -174,6 +176,7 @@ EGPlanner::checkTerminationConditions()
 	bool termination = false;
 	//max steps equal to -1 means run forever
 	if (mMaxSteps != -1 && mCurrentStep >= mMaxSteps){ 
+		std::cout << "Stopping planner now..." << std::endl ;
 		if (!mRepeat) {
 			pausePlanner();
 			termination = true;
@@ -190,6 +193,13 @@ EGPlanner::checkTerminationConditions()
 			termination = true;
 			stopPlanner();
 		}
+	}
+	else if((mBestList.front()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 31000))
+	{
+		std::cout << "Energy exceed detected" << std::endl ;
+		//sleep(0.1);
+		//pausePlanner();
+		//termination = true ;
 	}
 	if (termination) {
 		Q_EMIT complete();
@@ -291,9 +301,9 @@ void EGPlanner::threadLoop()
 	while (!done) {
 		PlannerState s = getState();
 		switch(s) {
-            case STARTING_THREAD: //do nothing
+               		case STARTING_THREAD: //do nothing
 			  break;
-            case INIT:
+                  	case INIT:
 				sleep(0.1);
 				break;
 			case READY:
@@ -308,14 +318,7 @@ void EGPlanner::threadLoop()
          		case EXITED: //Do nothing
 			        break;
 		}
-		if (!done) {
-			checkTerminationConditions();
-			DBGA("In a loop");
-			if((mBestList.front()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 30100))
-			{
-				pausePlanner();
-			}
-		}
+		if (!done) checkTerminationConditions();
 	}
 	setState(EXITED);
 	DBGP("Thread is done!");
