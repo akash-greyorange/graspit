@@ -191,12 +191,6 @@ EGPlanner::checkTerminationConditions()
 			stopPlanner();
 		}
 	}
-	else if((mBestList.back()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 30100))
-	{
-		DBGA("Stopping planner since energy crossed threshold");
-		pausePlanner();
-		termination = true ;
-	}
 	if (termination) {
 		Q_EMIT complete();
 	}
@@ -297,9 +291,9 @@ void EGPlanner::threadLoop()
 	while (!done) {
 		PlannerState s = getState();
 		switch(s) {
-               		case STARTING_THREAD: //do nothing
+            case STARTING_THREAD: //do nothing
 			  break;
-                  	case INIT:
+            case INIT:
 				sleep(0.1);
 				break;
 			case READY:
@@ -314,7 +308,14 @@ void EGPlanner::threadLoop()
          		case EXITED: //Do nothing
 			        break;
 		}
-		if (!done) checkTerminationConditions();
+		if (!done) {
+			checkTerminationConditions();
+			DBGA("In a loop");
+			if((mBestList.front()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 30100))
+			{
+				pausePlanner();
+			}
+		}
 	}
 	setState(EXITED);
 	DBGP("Thread is done!");
