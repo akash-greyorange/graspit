@@ -32,6 +32,8 @@
 //#define GRASPITDBG
 #include "debug.h"
 
+#define MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED                     (5.0)
+
 //! How many of the best states are buffered. Should be a parameter
 #define BEST_LIST_SIZE 20
 //! Two states within this distance of each other are considered to be in the same neighborhood
@@ -138,5 +140,9 @@ SimAnnPlanner::mainLoop()
 	render();
 	mCurrentStep = mSimAnn->getCurrentStep();
 	if (mCurrentStep % 100 == 0 && !mMultiThread) Q_EMIT update();
+	if(mBestList.back()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED)
+	{
+		
+	}
 	if (mMaxSteps == 200) {DBGP("Child at " << mCurrentStep << " steps");}
 }
