@@ -45,6 +45,8 @@
 //#define PROF_ENABLED
 #include "profiling.h"
 
+#define MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED                     (5.0)
+
 PROF_DECLARE(EG_PLANNER);
 
 #define BEST_LIST_SIZE 20
@@ -74,8 +76,7 @@ EGPlanner::init()
 	mRenderCount = 0;
 	mLastRenderState = NULL;
 	mMaxSteps = 100000;
-	//mMaxTime = -1;
-	mMaxTime = 5 * 1000 ;
+	mMaxTime = -1;
 	mMultiThread = false;
 	mState = INIT;
 	mUsesClone = false;
@@ -189,6 +190,12 @@ EGPlanner::checkTerminationConditions()
 			termination = true;
 			stopPlanner();
 		}
+	}
+	else if(mBestList.back()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED)
+	{
+		DBGA("Stopping planner since energy crossed threshold");
+		termination = true;
+		stopPlanner();
 	}
 	if (termination) {
 		Q_EMIT complete();
