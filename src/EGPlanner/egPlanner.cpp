@@ -176,7 +176,7 @@ EGPlanner::checkTerminationConditions()
 	bool termination = false;
 	//max steps equal to -1 means run forever
 	if (mMaxSteps != -1 && mCurrentStep >= mMaxSteps){ 
-		//std::cout << "Stopping planner now..." << std::endl ;
+		DBGA("In loop 1");
 		if (!mRepeat) {
 			pausePlanner();
 			termination = true;
@@ -196,6 +196,7 @@ EGPlanner::checkTerminationConditions()
 	}
 	else if((mBestList.front()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 31000))
 	{
+		DBGA("GP EXE....");
 		//std::cout << "Energy exceed detected" << std::endl ;
 		//sleep(0.1);
 		//pausePlanner();
