@@ -195,10 +195,8 @@ EGPlanner::checkTerminationConditions()
 	}
 	else if((mBestList.front()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 31000))
 	{
-		//std::cout << "Energy exceed detected" << std::endl ;
-		//sleep(0.1);
-		//pausePlanner();
-		//termination = true ;
+		pausePlanner();
+		termination = true ;
 	}
 	if (termination) {
 		Q_EMIT complete();

@@ -118,8 +118,6 @@ SimAnnPlanner::mainLoop()
 	}
 	DBGP("Sim Ann success");
 
-	DBGA("In loop");
-
 	//put result in list if there's room or it's better than the worst solution so far
 	double worstEnergy;
 	if ((int)mBestList.size() < BEST_LIST_SIZE) worstEnergy = 1.0e5;
