@@ -210,7 +210,7 @@ public:
 	void setMaxSteps(int s){mMaxSteps=s;}
 	void setRepeat(bool r){mRepeat = r;}
 	void setMaxTime(int t){mMaxTime=t;}
-	
+
 	//! Returns the i-th state from the list of solutions mBestList
 	virtual const GraspPlanningState* getGrasp(int i);
 	//! Renders the i-th state from the list of solutions mBestList
