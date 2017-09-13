@@ -191,7 +191,7 @@ EGPlanner::checkTerminationConditions()
 			stopPlanner();
 		}
 	}
-	else if(mBestList.back()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED)
+	else if((mBestList.back()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 500))
 	{
 		DBGA("Stopping planner since energy crossed threshold");
 		termination = true;
