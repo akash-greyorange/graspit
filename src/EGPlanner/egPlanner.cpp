@@ -47,7 +47,7 @@
 
 #include <stdio.h>
 
-#define MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED                     (3.0)
+#define MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED                     (5.0)
 
 PROF_DECLARE(EG_PLANNER);
 
