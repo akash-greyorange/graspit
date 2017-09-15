@@ -193,7 +193,7 @@ EGPlanner::checkTerminationConditions()
 			stopPlanner();
 		}
 	}
-	else if((mBestList.back()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 31000))
+	else if((!mBestList.empty()) && (mBestList.front()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 31000))
 	{
 		pausePlanner();
 		termination = true ;
