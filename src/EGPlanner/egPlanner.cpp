@@ -47,7 +47,7 @@
 
 #include <stdio.h>
 
-#define MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED                     (5.0)
+#define MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED                     (4.0)
 
 PROF_DECLARE(EG_PLANNER);
 
@@ -193,11 +193,11 @@ EGPlanner::checkTerminationConditions()
 			stopPlanner();
 		}
 	}
-	/*else if((!mBestList.empty()) && (mBestList.front()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 31000))
+	else if((!mBestList.empty()) && (mBestList.front()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 31000))
 	{
 		pausePlanner();
 		termination = true ;
-	}*/
+	}
 	if (termination) {
 		Q_EMIT complete();
 	}
