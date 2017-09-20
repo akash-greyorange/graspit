@@ -47,11 +47,19 @@
 
 #include <stdio.h>
 
-#define MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED                     (4.0)
+#define MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED                     (5.0)
 
 PROF_DECLARE(EG_PLANNER);
 
 #define BEST_LIST_SIZE 20
+
+double EGPlanner::GetListEnergy(int index,std::list<GraspPlanningState*> *list)
+{
+	std::list<GraspPlanningState*>::iterator it;
+	it = list->begin();
+	std::advance(it,index);
+	return (*it)->getEnergy() ;
+}
 
 EGPlanner::EGPlanner(Hand *h)
 {
@@ -195,8 +203,12 @@ EGPlanner::checkTerminationConditions()
 	}
 	else if((!mBestList.empty()) && (mBestList.front()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 31000))
 	{
-		pausePlanner();
-		termination = true ;
+		if((GetListEnergy(1,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (GetListEnergy(2,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) &&
+			(GetListEnergy(3,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (GetListEnergy(4,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED))
+			{
+				pausePlanner();
+				termination = true ;
+			}
 	}
 	if (termination) {
 		Q_EMIT complete();

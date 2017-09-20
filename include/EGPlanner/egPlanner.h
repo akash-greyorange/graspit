@@ -234,5 +234,8 @@ public:
 
 	//! Set the stream for outputting stats and info
 	void setStatStream(std::ostream *out) const;
+
+	// Returns energy in mbestlist at specific index
+	double GetListEnergy(int index,std::list<GraspPlanningState*> *list);
 };
 #endif
