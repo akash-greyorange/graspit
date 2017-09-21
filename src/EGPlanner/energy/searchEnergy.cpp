@@ -196,7 +196,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         x_axis_grasp_exceeded = false ;
     }
 
-    if ( (!state->execute() || !legal()) && (x_axis_grasp_exceeded) ) {
+    if ( !state->execute() || !legal() ) {
         isLegal = false;
         stateEnergy = 0;
     } else {
