@@ -54,6 +54,8 @@
 //#define PROF_ENABLED
 #include "profiling.h"
 
+#include <matvec3D.h>
+
 PROF_DECLARE(QS);
 
 //todo move this out of here
@@ -178,7 +180,23 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         h->setRenderGeometry(false);
     }
 
-    if ( !state->execute() || !legal() ) {
+    transf hand_position = state->getTotalTran();
+    Quaternion hand_rotation = hand_position.rotation();
+    vec3 hand_translation = hand_position.translation();
+
+    Quaternion object_rotation = objTran.rotation();
+    vec3 object_translation = objTran.translation();
+    bool x_axis_grasp_exceeded ;
+    if(hand_translation.x() > object_translation.x())
+    {
+        x_axis_grasp_exceeded = true ;
+    }
+    else
+    {
+        x_axis_grasp_exceeded = false ;
+    }
+
+    if ( (!state->execute() || !legal()) && (x_axis_grasp_exceeded) ) {
         isLegal = false;
         stateEnergy = 0;
     } else {
