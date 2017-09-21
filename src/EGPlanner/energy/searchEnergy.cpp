@@ -56,6 +56,9 @@
 
 #include <matvec3D.h>
 
+#define HAND_POSE_PITCH_FILTER_UPPER                         (0.78)
+#define HAND_POSE_PITCH_FILTER_LOWER                         (-0.78)
+
 PROF_DECLARE(QS);
 
 //todo move this out of here
@@ -184,25 +187,29 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     Quaternion hand_rotation = hand_position.rotation();
     vec3 hand_translation = hand_position.translation();
 
+    double hand_roll , hand_pitch , hand_yaw ;
+
+    mat3 hand_rotation_matrix ;
+    hand_rotation.ToRotationMatrix(hand_rotation_matrix);
+    hand_rotation_matrix.ToEulerAngles(hand_roll,hand_pitch,hand_yaw);
+
     Quaternion object_rotation = objTran.rotation();
     vec3 object_translation = objTran.translation();
-    bool x_axis_grasp_exceeded ;
-    if(hand_translation.x() > object_translation.x())
+    bool grasp_not_in_limits ;
+    if((hand_translation.x() > object_translation.x()) && (hand_pitch >= HAND_POSE_PITCH_FILTER_LOWER) && (hand_pitch <= HAND_POSE_PITCH_FILTER_UPPER))
     {
-        x_axis_grasp_exceeded = true ;
-        DBGA("Got Grasp Pose exceeding X axis");
+        grasp_not_in_limits = true ;
     }
     else
     {
-        x_axis_grasp_exceeded = false ;
-        DBGA("Got Grasp Pose inside region X axis");
+        grasp_not_in_limits = false ;
     }
 
     if ( !state->execute() || !legal() ) {
         isLegal = false;
         stateEnergy = 0;
     } else {
-        if(x_axis_grasp_exceeded){
+        if(grasp_not_in_limits){
             isLegal = false ;
             stateEnergy = 0 ;
         }
