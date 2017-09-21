@@ -198,11 +198,25 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         DBGA("Got Grasp Pose inside region X axis");
     }
 
-    if ( (!state->execute() || !legal()) && (x_axis_grasp_exceeded) ) {
-        isLegal = false;
+    if ( !state->execute() || !legal() ) {
+        if(x_axis_grasp_exceeded){
+            isLegal = false ;
+        }
+        else
+        {
+            isLegal = true ;
+        }
+        //isLegal = false;
         stateEnergy = 0;
     } else {
-        isLegal = true;
+        if(x_axis_grasp_exceeded){
+            isLegal = false ;
+        }
+        else
+        {
+            isLegal = true ;
+        }
+        //isLegal = true;
         stateEnergy = energy();
     }
 
