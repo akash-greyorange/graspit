@@ -190,10 +190,12 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     if(hand_translation.x() > object_translation.x())
     {
         x_axis_grasp_exceeded = true ;
+        DBGA("Got Grasp Pose exceeding X axis");
     }
     else
     {
         x_axis_grasp_exceeded = false ;
+        DBGA("Got Grasp Pose inside region X axis");
     }
 
     if ( (!state->execute() || !legal()) && (x_axis_grasp_exceeded) ) {
