@@ -196,7 +196,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     Quaternion object_rotation = objTran.rotation();
     vec3 object_translation = objTran.translation();
     bool grasp_not_in_limits ;
-    if((hand_translation.x() > object_translation.x()) && (hand_pitch >= HAND_POSE_PITCH_FILTER_LOWER) && (hand_pitch <= HAND_POSE_PITCH_FILTER_UPPER))
+    if((hand_translation.x() > object_translation.x()) || ((hand_pitch >= HAND_POSE_PITCH_FILTER_LOWER) && (hand_pitch <= HAND_POSE_PITCH_FILTER_UPPER)))
     {
         grasp_not_in_limits = true ;
     }
