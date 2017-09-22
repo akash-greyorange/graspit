@@ -197,10 +197,28 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     vec3 object_translation = objTran.translation();
 
     bool grasp_out_of_limit = false ;
+    bool grasp_x_axis_exceeded = false ;
+    bool grasp_pitch_exceeded = false ;
+    double position_violation_penalty = 0 , pitch_violation_penalty = 0 ;
 
     if(hand_translation.x() > object_translation.x())
     {
         grasp_out_of_limit = true ;
+        grasp_x_axis_exceeded = true ;
+        position_violation_penalty = hand_translation.x() - object_translation.x() ;
+    }
+    if((hand_pitch >= HAND_POSE_PITCH_FILTER_LOWER) && (hand_pitch <= HAND_POSE_PITCH_FILTER_UPPER))
+    {
+        grasp_out_of_limit = true ;
+        grasp_pitch_exceeded = true ;
+        if(hand_pitch >= 0)
+        {
+            pitch_violation_penalty = (HAND_POSE_PITCH_FILTER_UPPER - hand_pitch) * 10 ;
+        }
+        else
+        {
+            pitch_violation_penalty = (HAND_POSE_PITCH_FILTER_UPPER + hand_pitch) * 10 ;
+        }
     }
 
     if ( !state->execute() || !legal() ) {
@@ -210,8 +228,20 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         isLegal = true;
         if(grasp_out_of_limit)
         {
-            stateEnergy = energy() + (hand_translation.x() - object_translation.x());   //Adding Penalty and increasing energy
-            DBGA("Penalty error " << (hand_translation.x() - object_translation.x()));
+            if(grasp_x_axis_exceeded && grasp_pitch_exceeded) {
+                stateEnergy = energy() + position_violation_penalty + pitch_violation_penalty ;   //Adding Penalty and increasing energy
+                DBGA("Position + Pitch Penalty error " << position_violation_penalty + pitch_violation_penalty);
+            }
+            else if(grasp_x_axis_exceeded)
+            {
+                stateEnergy = energy() + position_violation_penalty ;   //Adding Penalty and increasing energy
+                DBGA("Position Penalty error " << position_violation_penalty);
+            }
+            else if(grasp_pitch_exceeded)
+            {
+                stateEnergy = energy() + pitch_violation_penalty ;   //Adding Penalty and increasing energy
+                DBGA("Pitch Penalty error " << pitch_violation_penalty);
+            }
         }
         else
         {
