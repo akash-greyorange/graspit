@@ -201,23 +201,37 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     bool grasp_pitch_exceeded = false ;
     double position_violation_penalty = 0 , pitch_violation_penalty = 0 ;
 
+    double hand_pitch_upper_limit , hand_pitch_lower_limit ;
+
+    if(hand_yaw > 0)
+    {
+        hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER + (hand_yaw - 1.2);
+        hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_UPPER - (hand_yaw - 1.2);
+    }
+    else
+    {
+        hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER + (hand_yaw + 1.2) ;
+        hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_UPPER - (hand_yaw + 1.2) ;
+    }
+
     if(hand_translation.x() > object_translation.x())
     {
         grasp_out_of_limit = true ;
         grasp_x_axis_exceeded = true ;
         position_violation_penalty = hand_translation.x() - object_translation.x() ;
     }
-    if((hand_pitch >= HAND_POSE_PITCH_FILTER_LOWER) && (hand_pitch <= HAND_POSE_PITCH_FILTER_UPPER))
+
+    if((hand_pitch >= hand_pitch_lower_limit) && (hand_pitch <= hand_pitch_upper_limit))
     {
         grasp_out_of_limit = true ;
         grasp_pitch_exceeded = true ;
         if(hand_pitch >= 0)
         {
-            pitch_violation_penalty = ((HAND_POSE_PITCH_FILTER_UPPER*2) - hand_pitch) * 10 ;
+            pitch_violation_penalty = ((hand_pitch_upper_limit*2) - hand_pitch) * 10 ;
         }
         else
         {
-            pitch_violation_penalty = ((HAND_POSE_PITCH_FILTER_UPPER*2) + hand_pitch) * 10 ;
+            pitch_violation_penalty = ((hand_pitch_upper_limit*2) + hand_pitch) * 10 ;
         }
     }
 
