@@ -233,7 +233,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         }
     }
 
-    if(!((hand_roll >= hand_roll_lower_limit) && (hand_roll <= hand_roll_upper_limit)))
+    if((hand_roll >= hand_roll_lower_limit) && (hand_roll <= hand_roll_upper_limit))
     {
         grasp_out_of_limit = true ;
         grasp_roll_exceeded = true ;
