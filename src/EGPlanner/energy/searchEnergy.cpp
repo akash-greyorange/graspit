@@ -205,13 +205,13 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
 
     if(hand_yaw > 0)
     {
-        hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER + (hand_yaw - 1.2);
-        hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_UPPER - (hand_yaw - 1.2);
+        hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER + hand_yaw ;
+        hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_UPPER - hand_yaw ;
     }
     else
     {
-        hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER + (hand_yaw + 1.2) ;
-        hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_UPPER - (hand_yaw + 1.2) ;
+        hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER + hand_yaw ;
+        hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_UPPER - hand_yaw ;
     }
 
     if(hand_translation.x() > object_translation.x())
