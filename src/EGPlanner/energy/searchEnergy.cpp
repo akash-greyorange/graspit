@@ -58,8 +58,8 @@
 
 PROF_DECLARE(QS);
 
-#define HAND_POSE_PITCH_FILTER_UPPER                         (0.78)
-#define HAND_POSE_PITCH_FILTER_LOWER                         (-0.78)
+#define HAND_POSE_PITCH_FILTER_UPPER                         (1.0)          /* 60 degrees cone up and down */
+#define HAND_POSE_PITCH_FILTER_LOWER                         (-1.0)
 
 //todo move this out of here
 const double unbalancedForceThreshold = 1.0e10;
