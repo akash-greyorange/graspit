@@ -56,10 +56,10 @@
 
 #include <matvec3D.h>
 
+PROF_DECLARE(QS);
+
 #define HAND_POSE_PITCH_FILTER_UPPER                         (0.78)
 #define HAND_POSE_PITCH_FILTER_LOWER                         (-0.78)
-
-PROF_DECLARE(QS);
 
 //todo move this out of here
 const double unbalancedForceThreshold = 1.0e10;
@@ -182,7 +182,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     if( mDisableRendering) {
         h->setRenderGeometry(false);
     }
-
+    
     transf hand_position = state->getTotalTran();
     Quaternion hand_rotation = hand_position.rotation();
     vec3 hand_translation = hand_position.translation();
@@ -195,27 +195,26 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
 
     Quaternion object_rotation = objTran.rotation();
     vec3 object_translation = objTran.translation();
-    bool grasp_not_in_limits ;
-    if((hand_translation.x() > object_translation.x()) || ((hand_pitch >= HAND_POSE_PITCH_FILTER_LOWER) && (hand_pitch <= HAND_POSE_PITCH_FILTER_UPPER)))
+
+    bool grasp_out_of_limit = false ;
+
+    if(hand_translation.x() > object_translation.x())
     {
-        grasp_not_in_limits = true ;
-    }
-    else
-    {
-        grasp_not_in_limits = false ;
+        grasp_out_of_limit = true ;
     }
 
     if ( !state->execute() || !legal() ) {
         isLegal = false;
         stateEnergy = 0;
     } else {
-        if(grasp_not_in_limits){
-            isLegal = false ;
-            stateEnergy = 0 ;
+        isLegal = true;
+        if(grasp_out_of_limit)
+        {
+            stateEnergy = energy() + (hand_translation.x() - object_translation.x());   //Adding Penalty and increasing energy
+            DBGA("Penalty error " << (hand_translation.x() - object_translation.x()));
         }
         else
         {
-            isLegal = true ;
             stateEnergy = energy();
         }
         //isLegal = true;

@@ -6,7 +6,6 @@
 #include "quality.h"
 #include "contact/virtualContact.h"
 
-
 double
 GuidedPotentialQualityEnergy::energy() const
 {
@@ -20,6 +19,7 @@ GuidedPotentialQualityEnergy::energy() const
     }
 
     return potentialEnergy;
+
 }
 
 
