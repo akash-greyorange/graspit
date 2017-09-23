@@ -61,11 +61,11 @@ PROF_DECLARE(QS);
 #define HAND_POSE_PITCH_FILTER_UPPER                         (1.2)          /* 70 degrees cone up and down */
 #define HAND_POSE_PITCH_FILTER_LOWER                         (-1.2)
 
-#define HAND_POSE_ROLL_FILTER_UPPER_1                         (1.0)        /* 60 degrees cone up and down */
-#define HAND_POSE_ROLL_FILTER_UPPER_2                         (2.14)
+#define HAND_POSE_ROLL_FILTER_UPPER_1                         (1.2)        /* 60 degrees cone up and down */
+#define HAND_POSE_ROLL_FILTER_UPPER_2                         (2.0)
 
-#define HAND_POSE_ROLL_FILTER_LOWER_1                         (-1.0)       /* 60 degrees cone up and down */
-#define HAND_POSE_ROLL_FILTER_LOWER_2                         (-2.14)          
+#define HAND_POSE_ROLL_FILTER_LOWER_1                         (-1.2)       /* 60 degrees cone up and down */
+#define HAND_POSE_ROLL_FILTER_LOWER_2                         (-2.0)          
 
 #define HAND_POSE_ROLL_MAX_POSITIVE                           (3.14)
 #define HAND_POSE_ROLL_MIN_NEGATIVE                           (-3.14)
