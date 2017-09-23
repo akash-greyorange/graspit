@@ -207,25 +207,21 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
 
     double hand_pitch_upper_limit , hand_pitch_lower_limit , hand_roll_upper_limit , hand_roll_lower_limit ;
 
+    /* If Yaw is decreasing from 0 to 3.14 then Pitch and Roll will increase being Pitch increasing at half 
+        the rate of Yaw and Roll increasing proportionately */
 
-    if(hand_yaw < 0)
-    {
-        /* If Yaw is decreasing from 0 to -3.14 then Pitch and Roll will increase being Pitch increasing at half 
-           the rate of Yaw and Roll increasing proportionately */
-        hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER - (hand_yaw / 2) ;
-        hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_LOWER + (hand_yaw / 2) ;
-        hand_roll_upper_limit = HAND_POSE_ROLL_FILTER_UPPER - hand_yaw ;
-        hand_roll_lower_limit = HAND_POSE_ROLL_FILTER_LOWER + hand_yaw ;
-    }
-    else
-    {
-        /* If Yaw is increasing from -3.14 to 0 then Pitch and Roll will decrease being Pitch decreasing at half 
-           the rate of Yaw and Roll decreasing proportionately */
-        hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER - (hand_yaw / 2) ;
-        hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_LOWER + (hand_yaw / 2) ;
-        hand_roll_upper_limit = HAND_POSE_ROLL_FILTER_UPPER - hand_yaw ;
-        hand_roll_lower_limit = HAND_POSE_ROLL_FILTER_LOWER + hand_yaw ;
-    }
+    /* If Yaw is increasing from -3.14 to 0 then Pitch and Roll will decrease being Pitch decreasing at half 
+    the rate of Yaw and Roll decreasing proportionately */
+
+    //hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER - (hand_yaw / 2) ;
+    //hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_LOWER + (hand_yaw / 2) ;
+    //hand_roll_upper_limit = HAND_POSE_ROLL_FILTER_UPPER - hand_yaw ;
+    //hand_roll_lower_limit = HAND_POSE_ROLL_FILTER_LOWER + hand_yaw ;
+
+    
+    find_upper_lower_limits(HAND_POSE_PITCH_FILTER_UPPER,HAND_POSE_PITCH_FILTER_LOWER,hand_pitch,&hand_pitch_upper_limit,&hand_pitch_lower_limit,1.57,-1.57);
+    DBGA("Pitch Median:" << hand_pitch << "Pitch upper:" << hand_pitch_upper_limit << "Pitch lower:" << hand_pitch_lower_limit);
+    
 
     if(hand_translation.x() > object_translation.x())
     {
@@ -234,17 +230,17 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         position_violation_penalty = hand_translation.x() - object_translation.x() ;
     }
 
-    if((hand_pitch >= HAND_POSE_PITCH_FILTER_LOWER) && (hand_pitch <= HAND_POSE_PITCH_FILTER_UPPER))
+    if(!((hand_pitch >= hand_pitch_lower_limit) && (hand_pitch <= hand_pitch_upper_limit)))
     {
         grasp_out_of_limit = true ;
         grasp_pitch_exceeded = true ;
         if(hand_pitch >= 0)
         {
-            pitch_violation_penalty = ((HAND_POSE_PITCH_FILTER_UPPER*2) - hand_pitch) ;
+            pitch_violation_penalty = ((hand_pitch_upper_limit*2) - hand_pitch) ;
         }
         else
         {
-            pitch_violation_penalty = ((HAND_POSE_PITCH_FILTER_UPPER*2) + hand_pitch) ;
+            pitch_violation_penalty = ((hand_pitch_upper_limit*2) + hand_pitch) ;
         }
     }
     /*if(!((hand_roll >= hand_roll_lower_limit) && (hand_roll <= hand_roll_upper_limit)))
@@ -372,6 +368,39 @@ SearchEnergy * SearchEnergy::getSearchEnergy(SearchEnergyType type)
     return se;
 }
 
+
+void SearchEnergy::find_upper_lower_limits(double range_upper_limit,double range_lower_limit,double median,double *final_upper_limit,double *final_lower_limit,
+                                            double scale_upper_limit,double scale_lower_limit)
+{
+    double temp_var ;
+    if(median > 0)
+    {
+        if((median + range_upper_limit) > scale_upper_limit)
+        {
+            *final_lower_limit -= scale_upper_limit - ((median + range_upper_limit) - scale_upper_limit) ;
+            *final_upper_limit = median - range_upper_limit ;
+        }
+        else
+        {
+            *final_upper_limit = median + range_upper_limit ;
+            *final_lower_limit = median - range_upper_limit ;
+        }
+    }
+    else
+    {
+        if((median - range_lower_limit)  < scale_lower_limit)
+        {
+            *final_upper_limit = scale_upper_limit + ((median - range_lower_limit) + scale_upper_limit) ;
+            *final_lower_limit = median + range_upper_limit ;
+        }
+        else
+        {
+            *final_lower_limit = median - range_upper_limit ;
+            *final_upper_limit = median + range_upper_limit ;
+        }
+    }
+    
+}
 
 
 

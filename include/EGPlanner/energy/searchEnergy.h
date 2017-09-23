@@ -109,6 +109,9 @@ public:
 
     virtual ~SearchEnergy();
 
+    void find_upper_lower_limits(double range_upper_limit,double range_lower_limit,double median,double *upper_limit,double *lower_limit,
+                                    double scale_upper_limit,double scale_lower_limit);
+
 };
 
 #endif
