@@ -246,11 +246,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         grasp_pitch_exceeded = true ;
         if(hand_pitch >= 0)
         {
-            pitch_violation_penalty = ((hand_pitch_upper_limit*2) - hand_pitch) ;
+            pitch_violation_penalty = ((hand_pitch_upper_limit*2) + hand_pitch) ;
         }
         else
         {
-            pitch_violation_penalty = ((hand_pitch_upper_limit*2) + hand_pitch) ;
+            pitch_violation_penalty = ((hand_pitch_upper_limit*2) - hand_pitch) ;
         }
     }
 
@@ -260,11 +260,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         grasp_roll_exceeded = true ;
         if(hand_roll >= 0)
         {
-            roll_violation_penalty = ((hand_roll_upper_limit*2) - hand_roll) ;
+            roll_violation_penalty = ((hand_roll_upper_limit*2) + hand_roll) ;
         }
         else
         {
-            roll_violation_penalty = ((hand_roll_upper_limit*2) + hand_roll) ;
+            roll_violation_penalty = ((hand_roll_upper_limit*2) - hand_roll) ;
         }
     }
 
