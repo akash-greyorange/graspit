@@ -61,11 +61,11 @@ PROF_DECLARE(QS);
 #define HAND_POSE_PITCH_FILTER_UPPER                         (1.2)          /* 70 degrees cone up and down */
 #define HAND_POSE_PITCH_FILTER_LOWER                         (-1.2)
 
-#define HAND_POSE_ROLL_FILTER_UPPER_1                         (0.57)        /* 60 degrees cone up and down */
-#define HAND_POSE_ROLL_FILTER_UPPER_2                         (2.57)
+#define HAND_POSE_ROLL_FILTER_UPPER_1                         (1.0)        /* 60 degrees cone up and down */
+#define HAND_POSE_ROLL_FILTER_UPPER_2                         (2.14)
 
-#define HAND_POSE_ROLL_FILTER_LOWER_1                         (-0.57)       /* 60 degrees cone up and down */
-#define HAND_POSE_ROLL_FILTER_LOWER_2                         (-2.57)          
+#define HAND_POSE_ROLL_FILTER_LOWER_1                         (-1.0)       /* 60 degrees cone up and down */
+#define HAND_POSE_ROLL_FILTER_LOWER_2                         (-2.14)          
 
 //todo move this out of here
 const double unbalancedForceThreshold = 1.0e10;
@@ -262,39 +262,37 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         {
             if(grasp_x_axis_exceeded && grasp_pitch_exceeded && grasp_roll_exceeded) {
                 stateEnergy = energy() + position_violation_penalty + pitch_violation_penalty + roll_violation_penalty ;   //Adding Penalty and increasing energy
-                DBGA("Position + Pitch + Roll Penalty error " << position_violation_penalty + pitch_violation_penalty + roll_violation_penalty );
+                //DBGA("Position + Pitch + Roll Penalty error " << position_violation_penalty + pitch_violation_penalty + roll_violation_penalty );
             }
             else if(grasp_x_axis_exceeded && grasp_pitch_exceeded)
             {
                 stateEnergy = energy() + position_violation_penalty + pitch_violation_penalty ;   //Adding Penalty and increasing energy
-                DBGA("Position + Pitch Penalty Penalty error " << position_violation_penalty + pitch_violation_penalty);
-                DBGA("Current Pitch " << hand_pitch);
+                //DBGA("Position + Pitch Penalty Penalty error " << position_violation_penalty + pitch_violation_penalty);
             }
             else if(grasp_pitch_exceeded && grasp_roll_exceeded)
             {
                 stateEnergy = energy() + pitch_violation_penalty + roll_violation_penalty ;   //Adding Penalty and increasing energy
-                DBGA("Pitch + Roll Penalty error " << pitch_violation_penalty + roll_violation_penalty);
+                //DBGA("Pitch + Roll Penalty error " << pitch_violation_penalty + roll_violation_penalty);
             }
             else if(grasp_x_axis_exceeded && grasp_roll_exceeded)
             {
                 stateEnergy = energy() + position_violation_penalty + roll_violation_penalty ;   //Adding Penalty and increasing energy
-                DBGA("Position + Roll Penalty error " << position_violation_penalty + roll_violation_penalty);
+                //DBGA("Position + Roll Penalty error " << position_violation_penalty + roll_violation_penalty);
             }
             else if(grasp_x_axis_exceeded)
             {
                 stateEnergy = energy() + position_violation_penalty ;   //Adding Penalty and increasing energy
-                DBGA("Position Penalty error " << position_violation_penalty);
+                //DBGA("Position Penalty error " << position_violation_penalty);
             }
             else if(grasp_pitch_exceeded)
             {
                 stateEnergy = energy() + pitch_violation_penalty  ;   //Adding Penalty and increasing energy
-                DBGA("Pitch Penalty error " << pitch_violation_penalty);
-                DBGA("Current Pitch " << hand_pitch);
+                //DBGA("Pitch Penalty error " << pitch_violation_penalty);
             }
             else if(grasp_roll_exceeded)
             {
                 stateEnergy = energy() + roll_violation_penalty ;   //Adding Penalty and increasing energy
-                DBGA("Pitch + Roll Penalty error " << roll_violation_penalty);
+                //DBGA("Pitch + Roll Penalty error " << roll_violation_penalty);
             }
         }
         else
