@@ -67,6 +67,9 @@ PROF_DECLARE(QS);
 #define HAND_POSE_ROLL_FILTER_LOWER_1                         (-1.0)       /* 60 degrees cone up and down */
 #define HAND_POSE_ROLL_FILTER_LOWER_2                         (-2.14)          
 
+#define HAND_POSE_ROLL_MAX_POSITIVE                           (3.14)
+#define HAND_POSE_ROLL_MIN_NEGATIVE                           (-3.14)
+
 //todo move this out of here
 const double unbalancedForceThreshold = 1.0e10;
 
@@ -238,7 +241,8 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         }
     }
     if(((hand_roll >= HAND_POSE_ROLL_FILTER_LOWER_1) && (hand_roll <= HAND_POSE_ROLL_FILTER_UPPER_1)) || 
-        ((hand_roll >= HAND_POSE_ROLL_FILTER_LOWER_2) && (hand_roll <= HAND_POSE_ROLL_FILTER_UPPER_2)))
+        ((hand_roll >= HAND_POSE_ROLL_FILTER_UPPER_2) && (hand_roll <= HAND_POSE_ROLL_MAX_POSITIVE)) ||
+        ((hand_roll >= HAND_POSE_ROLL_MIN_NEGATIVE) && (hand_roll <= HAND_POSE_ROLL_FILTER_LOWER_2)))
     {
         grasp_out_of_limit = true ;
         grasp_roll_exceeded = true ;
