@@ -204,9 +204,10 @@ EGPlanner::checkTerminationConditions()
 	else if((!mBestList.empty()) && (mBestList.front()->getEnergy() < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (mCurrentStep > 31000))
 	{
 		if((GetListEnergy(1,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (GetListEnergy(2,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) &&
-			(GetListEnergy(3,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (GetListEnergy(4,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED))
+			(GetListEnergy(3,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (GetListEnergy(4,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) &&
+			(GetListEnergy(5,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (GetListEnergy(6,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED))
 			{
-				pausePlanner();
+				pausePlanner() ;
 				termination = true ;
 			}
 	}

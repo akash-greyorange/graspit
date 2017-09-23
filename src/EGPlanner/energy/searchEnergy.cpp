@@ -207,10 +207,31 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
 
     double hand_pitch_upper_limit , hand_pitch_lower_limit , hand_roll_upper_limit , hand_roll_lower_limit ;
 
-    hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER + hand_yaw ;
+
+    if(hand_yaw < 0)
+    {
+        /* If Yaw is decreasing from 0 to -3.14 then Pitch and Roll will increase being Pitch increasing at half 
+           the rate of Yaw and Roll increasing proportionately */
+        hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER - (hand_yaw / 2) ;
+        hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_LOWER + (hand_yaw / 2) ;
+        hand_roll_upper_limit = HAND_POSE_ROLL_FILTER_UPPER - hand_yaw ;
+        hand_roll_lower_limit = HAND_POSE_ROLL_FILTER_LOWER + hand_yaw ;
+    }
+    else
+    {
+        /* If Yaw is increasing from -3.14 to 0 then Pitch and Roll will decrease being Pitch decreasing at half 
+           the rate of Yaw and Roll decreasing proportionately */
+        hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER - (hand_yaw / 2) ;
+        hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_LOWER + (hand_yaw / 2) ;
+        hand_roll_upper_limit = HAND_POSE_ROLL_FILTER_UPPER - hand_yaw ;
+        hand_roll_lower_limit = HAND_POSE_ROLL_FILTER_LOWER + hand_yaw ;
+    }
+
+
+    /*hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER + hand_yaw ;
     hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_UPPER - hand_yaw ;
     hand_roll_upper_limit = HAND_POSE_ROLL_FILTER_UPPER + hand_yaw ;
-    hand_roll_lower_limit = HAND_POSE_ROLL_FILTER_LOWER - hand_yaw ;
+    hand_roll_lower_limit = HAND_POSE_ROLL_FILTER_LOWER - hand_yaw ;*/
 
     if(hand_translation.x() > object_translation.x())
     {
@@ -225,25 +246,25 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         grasp_pitch_exceeded = true ;
         if(hand_pitch >= 0)
         {
-            pitch_violation_penalty = ((hand_pitch_upper_limit*2) - hand_pitch) * 10 ;
+            pitch_violation_penalty = ((hand_pitch_upper_limit*2) - hand_pitch) ;
         }
         else
         {
-            pitch_violation_penalty = ((hand_pitch_upper_limit*2) + hand_pitch) * 10 ;
+            pitch_violation_penalty = ((hand_pitch_upper_limit*2) + hand_pitch) ;
         }
     }
 
-    if((hand_roll >= hand_roll_lower_limit) && (hand_roll <= hand_roll_upper_limit))
+    if(!((hand_roll >= hand_roll_lower_limit) && (hand_roll <= hand_roll_upper_limit)))
     {
         grasp_out_of_limit = true ;
         grasp_roll_exceeded = true ;
         if(hand_roll >= 0)
         {
-            roll_violation_penalty = ((hand_roll_upper_limit*2) - hand_roll) * 10 ;
+            roll_violation_penalty = ((hand_roll_upper_limit*2) - hand_roll) ;
         }
         else
         {
-            roll_violation_penalty = ((hand_roll_upper_limit*2) + hand_roll) * 10 ;
+            roll_violation_penalty = ((hand_roll_upper_limit*2) + hand_roll) ;
         }
     }
 
