@@ -61,7 +61,7 @@ PROF_DECLARE(QS);
 #define HAND_POSE_PITCH_FILTER_UPPER                         (1.2)          /* 70 degrees cone up and down */
 #define HAND_POSE_PITCH_FILTER_LOWER                         (-1.2)
 
-#define HAND_POSE_ROLL_FILTER_UPPER                         (1.0)          /* 70 degrees cone up and down */
+#define HAND_POSE_ROLL_FILTER_UPPER                         (1.0)          /* 60 degrees cone up and down */
 #define HAND_POSE_ROLL_FILTER_LOWER                         (-1.0)
 
 //todo move this out of here
@@ -220,7 +220,6 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
 
     
     find_upper_lower_limits(HAND_POSE_PITCH_FILTER_UPPER,HAND_POSE_PITCH_FILTER_LOWER,hand_pitch,&hand_pitch_upper_limit,&hand_pitch_lower_limit,1.57,-1.57);
-    //DBGA("Pitch Median:" << hand_pitch << "Pitch upper:" << hand_pitch_upper_limit << "Pitch lower:" << hand_pitch_lower_limit);
     
     if(hand_translation.x() > object_translation.x())
     {
@@ -235,11 +234,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         grasp_pitch_exceeded = true ;
         if(hand_pitch >= 0)
         {
-            pitch_violation_penalty = 1.57 + hand_pitch ;
+            pitch_violation_penalty = (1.57 - hand_pitch) * 10 ;
         }
         else
         {
-            pitch_violation_penalty = 1.57 - hand_pitch ;
+            pitch_violation_penalty = (1.57 + hand_pitch) * 10 ;
         }
     }
     /*if(!((hand_roll >= hand_roll_lower_limit) && (hand_roll <= hand_roll_upper_limit)))
