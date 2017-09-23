@@ -244,11 +244,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         grasp_roll_exceeded = true ;
         if(hand_roll >= 0)
         {
-            roll_violation_penalty = hand_roll * 10 ;
+            roll_violation_penalty = hand_roll * 20 ;
         }
         else
         {
-            roll_violation_penalty -= hand_roll * 10 ;
+            roll_violation_penalty -= hand_roll * 20 ;
         }
         DBGA("Rejected Roll : " << hand_roll);
     }
