@@ -61,8 +61,11 @@ PROF_DECLARE(QS);
 #define HAND_POSE_PITCH_FILTER_UPPER                         (1.2)          /* 70 degrees cone up and down */
 #define HAND_POSE_PITCH_FILTER_LOWER                         (-1.2)
 
-#define HAND_POSE_ROLL_FILTER_UPPER                         (1.0)          /* 60 degrees cone up and down */
-#define HAND_POSE_ROLL_FILTER_LOWER                         (-1.0)
+#define HAND_POSE_ROLL_FILTER_UPPER_1                         (0.57)        /* 60 degrees cone up and down */
+#define HAND_POSE_ROLL_FILTER_UPPER_2                         (2.57)
+
+#define HAND_POSE_ROLL_FILTER_LOWER_1                         (-0.57)       /* 60 degrees cone up and down */
+#define HAND_POSE_ROLL_FILTER_LOWER_2                         (-2.57)          
 
 //todo move this out of here
 const double unbalancedForceThreshold = 1.0e10;
@@ -207,17 +210,10 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
 
     double hand_pitch_upper_limit , hand_pitch_lower_limit , hand_roll_upper_limit , hand_roll_lower_limit ;
 
-    /* If Yaw is decreasing from 0 to 3.14 then Pitch and Roll will increase being Pitch increasing at half 
-        the rate of Yaw and Roll increasing proportionately */
-
-    /* If Yaw is increasing from -3.14 to 0 then Pitch and Roll will decrease being Pitch decreasing at half 
-    the rate of Yaw and Roll decreasing proportionately */
-
-    //hand_pitch_upper_limit = HAND_POSE_PITCH_FILTER_UPPER - (hand_yaw / 2) ;
-    //hand_pitch_lower_limit = HAND_POSE_PITCH_FILTER_LOWER + (hand_yaw / 2) ;
-    //hand_roll_upper_limit = HAND_POSE_ROLL_FILTER_UPPER - hand_yaw ;
-    //hand_roll_lower_limit = HAND_POSE_ROLL_FILTER_LOWER + hand_yaw ;
-
+    /*  If Yaw is decreasing from 0 to 3.14 then Pitch and Roll will increase being Pitch increasing at half 
+        the rate of Yaw and Roll increasing proportionately.
+        If Yaw is increasing from -3.14 to 0 then Pitch and Roll will decrease being Pitch decreasing at half 
+        the rate of Yaw and Roll decreasing proportionately   */
     
     find_upper_lower_limits(HAND_POSE_PITCH_FILTER_UPPER,HAND_POSE_PITCH_FILTER_LOWER,hand_pitch,&hand_pitch_upper_limit,&hand_pitch_lower_limit,1.57,-1.57);
     
@@ -241,19 +237,20 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             pitch_violation_penalty = (1.57 + hand_pitch) * 10 ;
         }
     }
-    /*if(!((hand_roll >= hand_roll_lower_limit) && (hand_roll <= hand_roll_upper_limit)))
+    if(((hand_roll >= HAND_POSE_ROLL_FILTER_LOWER_1) && (hand_roll <= HAND_POSE_ROLL_FILTER_UPPER_1)) || 
+        ((hand_roll >= HAND_POSE_ROLL_FILTER_LOWER_2) && (hand_roll <= HAND_POSE_ROLL_FILTER_UPPER_2)))
     {
         grasp_out_of_limit = true ;
         grasp_roll_exceeded = true ;
         if(hand_roll >= 0)
         {
-            roll_violation_penalty = ((hand_roll_upper_limit*2) - hand_roll) ;
+            roll_violation_penalty = hand_roll * 10 ;
         }
         else
         {
-            roll_violation_penalty = ((hand_roll_upper_limit*2) + hand_roll) ;
+            roll_violation_penalty -= hand_roll * 10 ;
         }
-    }*/
+    }
 
     if ( !state->execute() || !legal() ) {
         isLegal = false;
