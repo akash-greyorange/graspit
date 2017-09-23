@@ -250,7 +250,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         {
             roll_violation_penalty -= hand_roll * 10 ;
         }
-        DBGA("Current Roll : " << hand_roll);
+        DBGA("Rejected Roll : " << hand_roll);
+    }
+    else
+    {
+        DBGA("Accepted Roll : " << hand_roll);
     }
 
     if ( !state->execute() || !legal() ) {
