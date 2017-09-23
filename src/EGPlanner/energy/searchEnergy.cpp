@@ -222,7 +222,6 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     find_upper_lower_limits(HAND_POSE_PITCH_FILTER_UPPER,HAND_POSE_PITCH_FILTER_LOWER,hand_pitch,&hand_pitch_upper_limit,&hand_pitch_lower_limit,1.57,-1.57);
     //DBGA("Pitch Median:" << hand_pitch << "Pitch upper:" << hand_pitch_upper_limit << "Pitch lower:" << hand_pitch_lower_limit);
     
-
     if(hand_translation.x() > object_translation.x())
     {
         grasp_out_of_limit = true ;
@@ -272,6 +271,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             {
                 stateEnergy = energy() + position_violation_penalty + pitch_violation_penalty ;   //Adding Penalty and increasing energy
                 DBGA("Position + Pitch Penalty Penalty error " << position_violation_penalty + pitch_violation_penalty);
+                DBGA("Current Pitch " << hand_pitch);
             }
             else if(grasp_pitch_exceeded && grasp_roll_exceeded)
             {
@@ -292,6 +292,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             {
                 stateEnergy = energy() + pitch_violation_penalty  ;   //Adding Penalty and increasing energy
                 DBGA("Pitch Penalty error " << pitch_violation_penalty);
+                DBGA("Current Pitch " << hand_pitch);
             }
             else if(grasp_roll_exceeded)
             {
