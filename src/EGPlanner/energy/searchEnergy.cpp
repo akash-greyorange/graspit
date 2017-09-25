@@ -61,14 +61,25 @@ PROF_DECLARE(QS);
 #define HAND_POSE_PITCH_FILTER_UPPER                         (1.2)          /* 70 degrees cone up and down */
 #define HAND_POSE_PITCH_FILTER_LOWER                         (-1.2)
 
-#define HAND_POSE_ROLL_FILTER_UPPER_1                         (1.4)        /* 60 degrees cone up and down */
-#define HAND_POSE_ROLL_FILTER_UPPER_2                         (1.8)
 
-#define HAND_POSE_ROLL_FILTER_LOWER_1                         (-1.4)       /* 60 degrees cone up and down */
-#define HAND_POSE_ROLL_FILTER_LOWER_2                         (-1.8)          
+#define HAND_POSE_ROLL_RANGE_1_UPPER                            (-2.9)
+#define HAND_POSE_ROLL_RANGE_1_LOWER                            (-3.14)
 
-#define HAND_POSE_ROLL_MAX_POSITIVE                           (3.14)
-#define HAND_POSE_ROLL_MIN_NEGATIVE                           (-3.14)
+#define HAND_POSE_ROLL_RANGE_2_UPPER                            (3.14)
+#define HAND_POSE_ROLL_RANGE_2_LOWER                            (2.86)
+
+#define HAND_POSE_ROLL_RANGE_3_UPPER                            (-2.38)
+#define HAND_POSE_ROLL_RANGE_3_LOWER                            (-2.9)
+
+#define HAND_POSE_ROLL_RANGE_4_UPPER                            (0.79)
+#define HAND_POSE_ROLL_RANGE_4_LOWER                            (0.27)
+
+#define HAND_POSE_ROLL_RANGE_5_UPPER                            (0.27)
+#define HAND_POSE_ROLL_RANGE_5_LOWER                            (0.0)
+
+#define HAND_POSE_ROLL_RANGE_6_UPPER                            (0.0)
+#define HAND_POSE_ROLL_RANGE_6_LOWER                            (-0.25)                        
+
 
 //todo move this out of here
 const double unbalancedForceThreshold = 1.0e10;
@@ -241,19 +252,20 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         }
     }
     
-    if(((hand_roll >= HAND_POSE_ROLL_FILTER_LOWER_1) && (hand_roll <= HAND_POSE_ROLL_FILTER_UPPER_1)) || 
-        ((hand_roll >= HAND_POSE_ROLL_FILTER_UPPER_2) && (hand_roll <= HAND_POSE_ROLL_MAX_POSITIVE)) ||
-        ((hand_roll >= HAND_POSE_ROLL_MIN_NEGATIVE) && (hand_roll <= HAND_POSE_ROLL_FILTER_LOWER_2)))
+    if(((hand_roll >= HAND_POSE_ROLL_RANGE_1_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_1_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_2_LOWER) && 
+        (hand_roll <= HAND_POSE_ROLL_RANGE_2_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_3_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_3_UPPER))
+        || ((hand_roll >= HAND_POSE_ROLL_RANGE_4_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_4_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_5_LOWER)
+        && (hand_roll <= HAND_POSE_ROLL_RANGE_5_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_6_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_6_UPPER)))
     {
         grasp_out_of_limit = true ;
         grasp_roll_exceeded = true ;
         if(hand_roll >= 0)
         {
-            roll_violation_penalty = hand_roll * 100 ;
+            roll_violation_penalty = hand_roll * 10 ;
         }
         else
         {
-            roll_violation_penalty -= hand_roll * 100 ;
+            roll_violation_penalty -= hand_roll * 10 ;
         }
         //DBGA("Rejected Roll : " << hand_roll);
     }
