@@ -61,7 +61,7 @@ PROF_DECLARE(QS);
 #define HAND_POSE_PITCH_RANGE_1_UPPER                            (1.57)          
 #define HAND_POSE_PITCH_RANGE_1_LOWER                            (1.2)
 
-#define HAND_POSE_PITCH_RANGE_2_UPPER                           (-1.12)   
+#define HAND_POSE_PITCH_RANGE_2_UPPER                           (-1.2)   
 #define HAND_POSE_PITCH_RANGE_2_LOWER                           (-1.57)
 
 #define HAND_POSE_ROLL_RANGE_1_UPPER                            (-0.4)
