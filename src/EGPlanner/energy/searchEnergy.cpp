@@ -245,8 +245,8 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         position_violation_penalty = (hand_translation.x() - object_translation.x()) * 100 ;
     }
 
-    if(((hand_pitch >= HAND_POSE_PITCH_RANGE_1_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_1_UPPER)) || ((hand_pitch >= HAND_POSE_PITCH_RANGE_2_LOWER) &&
-        (hand_pitch <= HAND_POSE_PITCH_RANGE_2_UPPER)))
+    if(!(((hand_pitch >= HAND_POSE_PITCH_RANGE_1_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_1_UPPER)) || ((hand_pitch >= HAND_POSE_PITCH_RANGE_2_LOWER) &&
+        (hand_pitch <= HAND_POSE_PITCH_RANGE_2_UPPER))))
     {
         grasp_out_of_limit = true ;
         grasp_pitch_exceeded = true ;
