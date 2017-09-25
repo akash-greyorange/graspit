@@ -263,10 +263,10 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             }
         }
         
-        if(((hand_roll >= HAND_POSE_ROLL_RANGE_1_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_1_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_2_LOWER) && 
+        if(!(((hand_roll >= HAND_POSE_ROLL_RANGE_1_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_1_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_2_LOWER) && 
             (hand_roll <= HAND_POSE_ROLL_RANGE_2_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_3_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_3_UPPER))
             || ((hand_roll >= HAND_POSE_ROLL_RANGE_4_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_4_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_5_LOWER)
-            && (hand_roll <= HAND_POSE_ROLL_RANGE_5_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_6_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_6_UPPER)))
+            && (hand_roll <= HAND_POSE_ROLL_RANGE_5_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_6_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_6_UPPER))))
         {
             grasp_out_of_limit = true ;
             grasp_roll_exceeded = true ;
@@ -280,8 +280,8 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             }
         }
 
-        if(((hand_yaw >= HAND_POSE_YAW_RANGE_1_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_1_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_2_LOWER) &&
-            (hand_yaw <= HAND_POSE_YAW_RANGE_2_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_3_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_3_UPPER)))
+        if(!(((hand_yaw >= HAND_POSE_YAW_RANGE_1_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_1_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_2_LOWER) &&
+            (hand_yaw <= HAND_POSE_YAW_RANGE_2_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_3_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_3_UPPER))))
         {
             grasp_out_of_limit = true ;
             grasp_yaw_exceeded = true ;
@@ -303,14 +303,19 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         isLegal = true;
         if(grasp_out_of_limit)
         {
-            if(grasp_pitch_exceeded && grasp_roll_exceeded && grasp_yaw_exceeded) {
+            if(grasp_x_axis_exceeded)
+            {
+                stateEnergy = energy() + position_violation_penalty ;   //Adding Penalty and increasing energy
+                //DBGA("Position Penalty error " << position_violation_penalty);
+            }
+            else if(grasp_pitch_exceeded && grasp_roll_exceeded && grasp_yaw_exceeded) {
                 stateEnergy = energy() + position_violation_penalty + pitch_violation_penalty + roll_violation_penalty + yaw_violation_penalty ;   //Adding Penalty and increasing energy
                 //DBGA("Position + Pitch + Roll Penalty error " << position_violation_penalty + pitch_violation_penalty + roll_violation_penalty + yaw_violation_penalty);
             }
             else if(grasp_pitch_exceeded && grasp_yaw_exceeded)
             {
                 stateEnergy = energy() + pitch_violation_penalty + yaw_violation_penalty ;   //Adding Penalty and increasing energy
-                //DBGA("Position + Pitch Penalty Penalty error " << position_violation_penalty + pitch_violation_penalty);
+                //DBGA("Position + Pitch Penalty Penalty error " << yaw_violation_penalty + pitch_violation_penalty);
             }
             else if(grasp_pitch_exceeded && grasp_roll_exceeded)
             {
@@ -320,11 +325,6 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             else if(grasp_roll_exceeded && grasp_yaw_exceeded)
             {
                 stateEnergy = energy() + roll_violation_penalty + yaw_violation_penalty ;   //Adding Penalty and increasing energy
-            }
-            else if(grasp_x_axis_exceeded)
-            {
-                stateEnergy = energy() + position_violation_penalty ;   //Adding Penalty and increasing energy
-                //DBGA("Position Penalty error " << position_violation_penalty);
             }
             else if(grasp_pitch_exceeded)
             {
