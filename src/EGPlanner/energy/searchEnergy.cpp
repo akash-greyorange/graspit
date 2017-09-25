@@ -266,11 +266,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             grasp_roll_exceeded = true ;
             if(hand_roll >= 0)
             {
-                roll_violation_penalty = hand_roll * 10 ;
+                roll_violation_penalty = hand_roll * 100 ;
             }
             else
             {
-                roll_violation_penalty -= hand_roll * 10 ;
+                roll_violation_penalty -= hand_roll * 100 ;
             }
         }
 
@@ -281,11 +281,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             grasp_yaw_exceeded = true ;
             if(hand_yaw >= 0)
             {
-                yaw_violation_penalty = hand_yaw * 10 ;
+                yaw_violation_penalty = hand_yaw * 100 ;
             }
             else
             {
-                yaw_violation_penalty -= hand_yaw * 10 ;
+                yaw_violation_penalty -= hand_yaw * 100 ;
             }
         }
     }
