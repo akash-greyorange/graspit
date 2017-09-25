@@ -211,14 +211,14 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     bool grasp_roll_exceeded = false ;
     double position_violation_penalty = 0 , pitch_violation_penalty = 0 , roll_violation_penalty = 0 ;
 
-    double hand_pitch_upper_limit , hand_pitch_lower_limit , hand_roll_upper_limit , hand_roll_lower_limit ;
+    //double hand_pitch_upper_limit , hand_pitch_lower_limit , hand_roll_upper_limit , hand_roll_lower_limit ;
 
     /*  If Yaw is decreasing from 0 to 3.14 then Pitch and Roll will increase being Pitch increasing at half 
         the rate of Yaw and Roll increasing proportionately.
         If Yaw is increasing from -3.14 to 0 then Pitch and Roll will decrease being Pitch decreasing at half 
         the rate of Yaw and Roll decreasing proportionately   */
     
-    find_upper_lower_limits(HAND_POSE_PITCH_FILTER_UPPER,HAND_POSE_PITCH_FILTER_LOWER,hand_pitch,&hand_pitch_upper_limit,&hand_pitch_lower_limit,1.57,-1.57);
+    //find_upper_lower_limits(HAND_POSE_PITCH_FILTER_UPPER,HAND_POSE_PITCH_FILTER_LOWER,hand_pitch,&hand_pitch_upper_limit,&hand_pitch_lower_limit,1.57,-1.57);
     
     if(hand_translation.x() > object_translation.x())
     {
@@ -254,11 +254,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         {
             roll_violation_penalty -= hand_roll * 100 ;
         }
-        DBGA("Rejected Roll : " << hand_roll);
+        //DBGA("Rejected Roll : " << hand_roll);
     }
     else
     {
-        DBGA("Accepted Roll : " << hand_roll);
+        //DBGA("Accepted Roll : " << hand_roll);
     }
 
     if ( !state->execute() || !legal() ) {
