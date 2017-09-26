@@ -276,7 +276,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         }
     }
 
-    /*if(!(((hand_yaw >= HAND_POSE_YAW_RANGE_1_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_1_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_2_LOWER) &&
+    if(!(((hand_yaw >= HAND_POSE_YAW_RANGE_1_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_1_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_2_LOWER) &&
         (hand_yaw <= HAND_POSE_YAW_RANGE_2_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_3_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_3_UPPER))))
     {
         grasp_out_of_limit = true ;
@@ -289,7 +289,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         {
             yaw_violation_penalty -= hand_yaw * 100 ;
         }
-    }*/
+    }
 
     if ( !state->execute() || !legal() ) {
         isLegal = false;
