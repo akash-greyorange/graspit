@@ -253,12 +253,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             grasp_yaw_exceeded = true ;
             if(hand_yaw >= 0)
             {
-                yaw_violation_penalty = hand_yaw * 10 ;
+                yaw_violation_penalty = hand_yaw * 1000 ;
             }
             else
             {
-                yaw_violation_penalty -= hand_yaw * 10 ;
-                DBGA("Yaw Violation Negative: " << yaw_violation_penalty);
+                yaw_violation_penalty -= hand_yaw * 1000 ;
             }
         }
         else
@@ -270,12 +269,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
                 grasp_pitch_exceeded = true ;
                 if(hand_pitch >= 0)
                 {
-                    pitch_violation_penalty = (1.57 - hand_pitch) * 10 ;
+                    pitch_violation_penalty = (1.57 - hand_pitch) * 100 ;
                 }
                 else
                 {
-                    pitch_violation_penalty = (1.57 + hand_pitch) * 10 ;
-                    DBGA("Pitch Violation Negative: " << pitch_violation_penalty);
+                    pitch_violation_penalty = (1.57 + hand_pitch) * 100 ;
                 }
             }
 
@@ -287,12 +285,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
                 grasp_roll_exceeded = true ;
                 if(hand_roll >= 0)
                 {
-                    roll_violation_penalty = (hand_roll + 0.4) * 10 ;
+                    roll_violation_penalty = (hand_roll + 0.4) * 100 ;
                 }
                 else
                 {
-                    roll_violation_penalty -= (hand_roll - 0.4) * 10 ;
-                    DBGA("Roll Violation Negative: " << roll_violation_penalty);
+                    roll_violation_penalty -= (hand_roll - 0.4) * 100 ;
                 }
             }
         }
