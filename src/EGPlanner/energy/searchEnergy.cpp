@@ -258,6 +258,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             else
             {
                 yaw_violation_penalty -= hand_yaw * 100 ;
+                DBGA("Yaw Violation Negative: " << yaw_violation_penalty);
             }
         }
         else
@@ -274,6 +275,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
                 else
                 {
                     pitch_violation_penalty = (1.57 + hand_pitch) * 100 ;
+                    DBGA("Pitch Violation Negative: " << pitch_violation_penalty);
                 }
             }
 
@@ -290,6 +292,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
                 else
                 {
                     roll_violation_penalty -= (hand_roll - 0.4) * 100 ;
+                    DBGA("Roll Violation Negative: " << roll_violation_penalty);
                 }
             }
         }
