@@ -120,13 +120,13 @@ PROF_DECLARE(QS);
 
 #define HAND_POSE_YAW_RANGE_2_UPPER                             (0.30)    
 #define HAND_POSE_YAW_RANGE_2_LOWER                             (0.0)
-
+/*
 #define HAND_POSE_YAW_RANGE_3_UPPER                             (3.14)
 #define HAND_POSE_YAW_RANGE_3_LOWER                             (2.84)
 
 #define HAND_POSE_YAW_RANGE_4_UPPER                             (-2.84)
 #define HAND_POSE_YAW_RANGE_4_LOWER                             (-3.14)
-
+*/
 
 //todo move this out of here
 const double unbalancedForceThreshold = 1.0e10;
@@ -287,21 +287,21 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     }
     else
     {
-        /*if(!(((hand_yaw >= HAND_POSE_YAW_RANGE_1_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_1_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_2_LOWER) &&
-            (hand_yaw <= HAND_POSE_YAW_RANGE_2_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_3_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_3_UPPER)) ||
-            ((hand_yaw >= HAND_POSE_YAW_RANGE_4_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_4_UPPER))))
+        if(!(((hand_yaw >= HAND_POSE_YAW_RANGE_1_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_1_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_2_LOWER) &&
+            (hand_yaw <= HAND_POSE_YAW_RANGE_2_UPPER))))// || ((hand_yaw >= HAND_POSE_YAW_RANGE_3_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_3_UPPER)) ||
+            //((hand_yaw >= HAND_POSE_YAW_RANGE_4_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_4_UPPER))))
         {
             grasp_out_of_limit = true ;
             grasp_yaw_exceeded = true ;
             if(hand_yaw >= 0)
             {
-                yaw_violation_penalty = hand_yaw * 1000 ;
+                yaw_violation_penalty = hand_yaw * 100 ;
             }
             else
             {
-                yaw_violation_penalty -= hand_yaw * 1000 ;
+                yaw_violation_penalty -= hand_yaw * 100 ;
             }
-        }*/
+        }
 
         if(!(((hand_pitch >= HAND_POSE_PITCH_RANGE_1_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_1_UPPER)) || ((hand_pitch >= HAND_POSE_PITCH_RANGE_2_LOWER) &&
             (hand_pitch <= HAND_POSE_PITCH_RANGE_2_UPPER))))// || ((hand_pitch >= HAND_POSE_PITCH_RANGE_3_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_3_UPPER))
