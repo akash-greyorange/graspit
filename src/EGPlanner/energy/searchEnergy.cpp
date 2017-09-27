@@ -312,38 +312,36 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
                 yaw_violation_penalty -= hand_yaw * 1000 ;
             }
         }
-        else
-        {
-            if(!(((hand_pitch >= HAND_POSE_PITCH_RANGE_1_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_1_UPPER)) || ((hand_pitch >= HAND_POSE_PITCH_RANGE_2_LOWER) &&
-                (hand_pitch <= HAND_POSE_PITCH_RANGE_2_UPPER)) || ((hand_pitch >= HAND_POSE_PITCH_RANGE_3_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_3_UPPER))
-                || ((hand_pitch >= HAND_POSE_PITCH_RANGE_4_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_4_UPPER))))
-            {
-                grasp_out_of_limit = true ;
-                grasp_pitch_exceeded = true ;
-                if(hand_pitch >= 0)
-                {
-                    pitch_violation_penalty = (1.57 - hand_pitch) * 100 ;
-                }
-                else
-                {
-                    pitch_violation_penalty = (1.57 + hand_pitch) * 100 ;
-                }
-            }
 
-            if(!(((hand_roll >= HAND_POSE_ROLL_RANGE_1_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_1_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_2_LOWER) && 
-                (hand_roll <= HAND_POSE_ROLL_RANGE_2_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_3_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_3_UPPER))
-                || ((hand_roll >= HAND_POSE_ROLL_RANGE_4_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_4_UPPER))))
+        if(!(((hand_pitch >= HAND_POSE_PITCH_RANGE_1_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_1_UPPER)) || ((hand_pitch >= HAND_POSE_PITCH_RANGE_2_LOWER) &&
+            (hand_pitch <= HAND_POSE_PITCH_RANGE_2_UPPER)) || ((hand_pitch >= HAND_POSE_PITCH_RANGE_3_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_3_UPPER))
+            || ((hand_pitch >= HAND_POSE_PITCH_RANGE_4_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_4_UPPER))))
+        {
+            grasp_out_of_limit = true ;
+            grasp_pitch_exceeded = true ;
+            if(hand_pitch >= 0)
             {
-                grasp_out_of_limit = true ;
-                grasp_roll_exceeded = true ;
-                if(hand_roll >= 0)
-                {
-                    roll_violation_penalty = (hand_roll + 1.57) * 100 ;
-                }
-                else
-                {
-                    roll_violation_penalty -= (hand_roll - 1.57) * 100 ;
-                }
+                pitch_violation_penalty = (1.57 - hand_pitch) * 100 ;
+            }
+            else
+            {
+                pitch_violation_penalty = (1.57 + hand_pitch) * 100 ;
+            }
+        }
+
+        if((((hand_roll >= HAND_POSE_ROLL_RANGE_1_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_1_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_2_LOWER) && 
+            (hand_roll <= HAND_POSE_ROLL_RANGE_2_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_3_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_3_UPPER))
+            || ((hand_roll >= HAND_POSE_ROLL_RANGE_4_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_4_UPPER))))
+        {
+            grasp_out_of_limit = true ;
+            grasp_roll_exceeded = true ;
+            if(hand_roll >= 0)
+            {
+                roll_violation_penalty = (hand_roll + 1.57) * 100 ;
+            }
+            else
+            {
+                roll_violation_penalty -= (hand_roll - 1.57) * 100 ;
             }
         }
     }
