@@ -49,6 +49,8 @@
 
 #define MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED                     (10.0)
 
+#define MAXIMUM_GRASP_ENERGY									(50.0)
+
 PROF_DECLARE(EG_PLANNER);
 
 #define BEST_LIST_SIZE 20
@@ -210,6 +212,13 @@ EGPlanner::checkTerminationConditions()
 				termination = true ;
 			}
 	}
+	/*else if((mCurrentStep > 40000) && (mBestList.front()->getEnergy() > MAXIMUM_GRASP_ENERGY))
+	{
+		transf manual_hand_pose() ;
+
+		mHand->setTran();
+
+	}*/
 	if (termination) {
 		Q_EMIT complete();
 	}
