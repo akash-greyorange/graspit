@@ -58,13 +58,13 @@
 
 PROF_DECLARE(QS);
 
+/*
 #define HAND_POSE_PITCH_RANGE_1_UPPER                            (1.57)          
 #define HAND_POSE_PITCH_RANGE_1_LOWER                            (1.27)
 
 #define HAND_POSE_PITCH_RANGE_2_UPPER                           (-1.27)   
 #define HAND_POSE_PITCH_RANGE_2_LOWER                           (-1.57)
 
-/*
 #define HAND_POSE_ROLL_RANGE_1_UPPER                            (-0.4)
 #define HAND_POSE_ROLL_RANGE_1_LOWER                            (-0.7)
 
@@ -87,6 +87,18 @@ PROF_DECLARE(QS);
 #define HAND_POSE_YAW_RANGE_3_UPPER                             (-2.84)
 #define HAND_POSE_YAW_RANGE_3_LOWER                             (-3.14)
 */
+
+#define HAND_POSE_PITCH_RANGE_1_UPPER                            (1.57)          
+#define HAND_POSE_PITCH_RANGE_1_LOWER                            (1.27)
+
+#define HAND_POSE_PITCH_RANGE_2_UPPER                           (-1.27)   
+#define HAND_POSE_PITCH_RANGE_2_LOWER                           (-1.57)
+
+#define HAND_POSE_PITCH_RANGE_3_UPPER                           (1.87)
+#define HAND_POSE_PITCH_RANGE_3_LOWER                           (1.57)
+
+#define HAND_POSE_PITCH_RANGE_4_UPPER                           (-1.57)
+#define HAND_POSE_PITCH_RANGE_4_LOWER                           (-1.87)
 
 #define HAND_POSE_ROLL_RANGE_1_UPPER                            (1.57)
 #define HAND_POSE_ROLL_RANGE_1_LOWER                            (1.27)
@@ -273,7 +285,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     }
     else
     {
-        if((((hand_yaw >= HAND_POSE_YAW_RANGE_1_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_1_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_2_LOWER) &&
+        if(!(((hand_yaw >= HAND_POSE_YAW_RANGE_1_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_1_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_2_LOWER) &&
             (hand_yaw <= HAND_POSE_YAW_RANGE_2_UPPER)) || ((hand_yaw >= HAND_POSE_YAW_RANGE_3_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_3_UPPER)) ||
             ((hand_yaw >= HAND_POSE_YAW_RANGE_4_LOWER) && (hand_yaw <= HAND_POSE_YAW_RANGE_4_UPPER))))
         {
@@ -291,7 +303,8 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         else
         {
             if(!(((hand_pitch >= HAND_POSE_PITCH_RANGE_1_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_1_UPPER)) || ((hand_pitch >= HAND_POSE_PITCH_RANGE_2_LOWER) &&
-                (hand_pitch <= HAND_POSE_PITCH_RANGE_2_UPPER))))
+                (hand_pitch <= HAND_POSE_PITCH_RANGE_2_UPPER)) || ((hand_pitch >= HAND_POSE_PITCH_RANGE_3_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_3_UPPER))
+                || ((hand_pitch >= HAND_POSE_PITCH_RANGE_4_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_4_UPPER))))
             {
                 grasp_out_of_limit = true ;
                 grasp_pitch_exceeded = true ;
@@ -305,7 +318,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
                 }
             }
 
-            if((((hand_roll >= HAND_POSE_ROLL_RANGE_1_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_1_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_2_LOWER) && 
+            if(!(((hand_roll >= HAND_POSE_ROLL_RANGE_1_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_1_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_2_LOWER) && 
                 (hand_roll <= HAND_POSE_ROLL_RANGE_2_UPPER)) || ((hand_roll >= HAND_POSE_ROLL_RANGE_3_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_3_UPPER))
                 || ((hand_roll >= HAND_POSE_ROLL_RANGE_4_LOWER) && (hand_roll <= HAND_POSE_ROLL_RANGE_4_UPPER))))
             {
