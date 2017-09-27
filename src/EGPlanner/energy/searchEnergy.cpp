@@ -100,7 +100,7 @@ PROF_DECLARE(QS);
 #define HAND_POSE_PITCH_RANGE_4_UPPER                           (-1.57)
 #define HAND_POSE_PITCH_RANGE_4_LOWER                           (-1.87)
 
-#define HAND_POSE_ROLL_RANGE_1_UPPER                            (1.57)
+/*#define HAND_POSE_ROLL_RANGE_1_UPPER                            (1.57)
 #define HAND_POSE_ROLL_RANGE_1_LOWER                            (1.27)
 
 #define HAND_POSE_ROLL_RANGE_2_UPPER                            (1.87)
@@ -111,7 +111,19 @@ PROF_DECLARE(QS);
 
 #define HAND_POSE_ROLL_RANGE_4_UPPER                            (-1.57)
 #define HAND_POSE_ROLL_RANGE_4_LOWER                            (-1.87)
+*/
 
+#define HAND_POSE_ROLL_RANGE_1_UPPER                            (0.0)
+#define HAND_POSE_ROLL_RANGE_1_LOWER                            (-0.30)
+
+#define HAND_POSE_ROLL_RANGE_2_UPPER                            (0.30)
+#define HAND_POSE_ROLL_RANGE_2_LOWER                            (0.0)
+
+#define HAND_POSE_ROLL_RANGE_3_UPPER                            (3.14)
+#define HAND_POSE_ROLL_RANGE_3_LOWER                            (2.84)
+
+#define HAND_POSE_ROLL_RANGE_4_UPPER                            (-2.84)
+#define HAND_POSE_ROLL_RANGE_4_LOWER                            (-3.14)
 
 #define HAND_POSE_YAW_RANGE_1_UPPER                             (0.0)
 #define HAND_POSE_YAW_RANGE_1_LOWER                             (-0.30)
