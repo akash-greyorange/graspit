@@ -58,36 +58,6 @@
 
 PROF_DECLARE(QS);
 
-/*
-#define HAND_POSE_PITCH_RANGE_1_UPPER                            (1.57)          
-#define HAND_POSE_PITCH_RANGE_1_LOWER                            (1.27)
-
-#define HAND_POSE_PITCH_RANGE_2_UPPER                           (-1.27)   
-#define HAND_POSE_PITCH_RANGE_2_LOWER                           (-1.57)
-
-#define HAND_POSE_ROLL_RANGE_1_UPPER                            (-0.4)
-#define HAND_POSE_ROLL_RANGE_1_LOWER                            (-0.7)
-
-#define HAND_POSE_ROLL_RANGE_2_UPPER                            (-0.1)
-#define HAND_POSE_ROLL_RANGE_2_LOWER                            (-0.4)
-
-#define HAND_POSE_ROLL_RANGE_3_UPPER                            (2.7)
-#define HAND_POSE_ROLL_RANGE_3_LOWER                            (2.4)
-
-#define HAND_POSE_ROLL_RANGE_4_UPPER                            (3.0)
-#define HAND_POSE_ROLL_RANGE_4_LOWER                            (2.7)
-
-
-#define HAND_POSE_YAW_RANGE_1_UPPER                             (0.30)
-#define HAND_POSE_YAW_RANGE_1_LOWER                             (-0.30)
-
-#define HAND_POSE_YAW_RANGE_2_UPPER                             (3.14)    
-#define HAND_POSE_YAW_RANGE_2_LOWER                             (2.84)
-
-#define HAND_POSE_YAW_RANGE_3_UPPER                             (-2.84)
-#define HAND_POSE_YAW_RANGE_3_LOWER                             (-3.14)
-*/
-
 #define HAND_POSE_ROLL_RANGE_1_UPPER                            (0.0)
 #define HAND_POSE_ROLL_RANGE_1_LOWER                            (-0.30)
 
@@ -125,6 +95,8 @@ PROF_DECLARE(QS);
 
 #define HAND_POSE_YAW_RANGE_4_UPPER                             (-2.84)
 #define HAND_POSE_YAW_RANGE_4_LOWER                             (-3.14)
+
+#define OBJECT_GRASPING_DISTANCE                                (150)
 
 
 //todo move this out of here
@@ -283,21 +255,12 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     bool grasp_roll_exceeded = false ;
     bool grasp_yaw_exceeded = false ;
     double position_violation_penalty = 0 , pitch_violation_penalty = 0 , roll_violation_penalty = 0 , yaw_violation_penalty = 0 ;
-
-    //double hand_pitch_upper_limit , hand_pitch_lower_limit , hand_roll_upper_limit , hand_roll_lower_limit ;
-
-    /*  If Yaw is decreasing from 0 to 3.14 then Pitch and Roll will increase being Pitch increasing at half 
-        the rate of Yaw and Roll increasing proportionately.
-        If Yaw is increasing from -3.14 to 0 then Pitch and Roll will decrease being Pitch decreasing at half 
-        the rate of Yaw and Roll decreasing proportionately   */
     
-    //find_upper_lower_limits(HAND_POSE_PITCH_FILTER_UPPER,HAND_POSE_PITCH_FILTER_LOWER,hand_pitch,&hand_pitch_upper_limit,&hand_pitch_lower_limit,1.57,-1.57);
-    
-    if(hand_translation.x() > (object_translation.x() - 150))
+    if(hand_translation.x() > (object_translation.x() - OBJECT_GRASPING_DISTANCE))
     {
         grasp_out_of_limit = true ;
         grasp_x_axis_exceeded = true ;
-        position_violation_penalty = (hand_translation.x() - (object_translation.x() - 150)) * 10 ;
+        position_violation_penalty = (hand_translation.x() - (object_translation.x() - OBJECT_GRASPING_DISTANCE)) * 10 ;
     }
     else 
     {
@@ -489,39 +452,6 @@ SearchEnergy * SearchEnergy::getSearchEnergy(SearchEnergyType type)
     return se;
 }
 
-
-void SearchEnergy::find_upper_lower_limits(double range_upper_limit,double range_lower_limit,double median,double *final_upper_limit,double *final_lower_limit,
-                                            double scale_upper_limit,double scale_lower_limit)
-{
-    double temp_var ;
-    if(median > 0)
-    {
-        if((median + range_upper_limit) > scale_upper_limit)
-        {
-            *final_lower_limit -= scale_upper_limit - ((median + range_upper_limit) - scale_upper_limit) ;
-            *final_upper_limit = median - range_upper_limit ;
-        }
-        else
-        {
-            *final_upper_limit = median + range_upper_limit ;
-            *final_lower_limit = median - range_upper_limit ;
-        }
-    }
-    else
-    {
-        if((median - range_lower_limit)  < scale_lower_limit)
-        {
-            *final_upper_limit = scale_upper_limit + ((median - range_lower_limit) + scale_upper_limit) ;
-            *final_lower_limit = median + range_upper_limit ;
-        }
-        else
-        {
-            *final_lower_limit = median - range_upper_limit ;
-            *final_upper_limit = median + range_upper_limit ;
-        }
-    }
-    
-}
 
 
 
