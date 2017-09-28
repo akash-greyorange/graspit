@@ -253,7 +253,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     Quaternion hand_rotation = hand_position.rotation();
     vec3 hand_translation = hand_position.translation();
 
-    Quaternion sample_rot(-0.457414, 0.556656, 0.459828,0.5191);
+    Quaternion sample_rot(-0.694683 ,0.00133674,0.719278,-0.00724696);
     mat3 hand_rotation_matrix_sample ;
     sample_rot.ToRotationMatrix(hand_rotation_matrix_sample);
     double hand_roll_sample , hand_pitch_sample , hand_yaw_sample ;
@@ -264,7 +264,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
 
     mat3 hand_rotation_matrix ;
     hand_rotation.ToRotationMatrix(hand_rotation_matrix);
-    hand_rotation_matrix.ToEulerAngles(hand_roll,hand_pitch,hand_yaw);
+    hand_rotation_matrix.ToEulerAngles(hand_yaw,hand_pitch,hand_roll);
 
     Quaternion object_rotation = objTran.rotation();
     vec3 object_translation = objTran.translation();
