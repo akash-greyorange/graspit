@@ -293,7 +293,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     
     //find_upper_lower_limits(HAND_POSE_PITCH_FILTER_UPPER,HAND_POSE_PITCH_FILTER_LOWER,hand_pitch,&hand_pitch_upper_limit,&hand_pitch_lower_limit,1.57,-1.57);
     
-    if(hand_translation.x() > object_translation.x() + 150)
+    if(hand_translation.x() > object_translation.x() - 150)
     {
         grasp_out_of_limit = true ;
         grasp_x_axis_exceeded = true ;
