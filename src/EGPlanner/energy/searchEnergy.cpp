@@ -295,7 +295,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     
     if(hand_translation.x() > (object_translation.x() - 150))
     {
-        grasp_out_of_limit = true 
+        grasp_out_of_limit = true ;
         grasp_x_axis_exceeded = true ;
         position_violation_penalty = (hand_translation.x() - object_translation.x()) * 100 ;
     }
