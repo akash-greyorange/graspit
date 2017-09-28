@@ -248,10 +248,17 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     if( mDisableRendering) {
         h->setRenderGeometry(false);
     }
-    
+
     transf hand_position = state->getTotalTran();
     Quaternion hand_rotation = hand_position.rotation();
     vec3 hand_translation = hand_position.translation();
+
+    Quaternion sample_rot(0.506933,0.471945,-0.517089,0.502897);
+    mat3 hand_rotation_matrix_sample ;
+    sample_rot.ToRotationMatrix(hand_rotation_matrix_sample);
+    double hand_roll_sample , hand_pitch_sample , hand_yaw_sample ;
+    hand_rotation_matrix_sample.ToEulerAngles(hand_roll_sample,hand_pitch_sample,hand_yaw_sample);
+    DBGA("Fixed Hand Roll:" << hand_roll_sample << "Fixed Hand Pitch:" << hand_pitch_sample << "Fixed Hand Yaw:" << hand_yaw_sample);
 
     double hand_roll , hand_pitch , hand_yaw ;
 
