@@ -295,8 +295,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     
     if(hand_translation.x() > (object_translation.x() - 150))
     {
-        DBGA("Hand X axis translation:"<< hand_translation.x() << " Object X axis translation:" << object_translation.x());
-        grasp_out_of_limit = true ;
+        grasp_out_of_limit = true 
         grasp_x_axis_exceeded = true ;
         position_violation_penalty = (hand_translation.x() - object_translation.x()) * 100 ;
     }
