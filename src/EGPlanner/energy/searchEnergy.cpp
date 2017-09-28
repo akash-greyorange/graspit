@@ -253,7 +253,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     Quaternion hand_rotation = hand_position.rotation();
     vec3 hand_translation = hand_position.translation();
 
-    Quaternion sample_rot(-0.694683 ,0.00133674,0.719278,-0.00724696);
+    Quaternion sample_rot(-0.463032 ,0.542077,0.472774,0.517918);
     mat3 hand_rotation_matrix_sample ;
     sample_rot.ToRotationMatrix(hand_rotation_matrix_sample);
     double hand_roll_sample , hand_pitch_sample , hand_yaw_sample ;
