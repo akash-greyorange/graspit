@@ -94,11 +94,11 @@ PROF_DECLARE(QS);
 #define HAND_POSE_ROLL_RANGE_2_UPPER                            (0.30)
 #define HAND_POSE_ROLL_RANGE_2_LOWER                            (0.0)
 
-#define HAND_POSE_ROLL_RANGE_3_UPPER                            (-1.27)
-#define HAND_POSE_ROLL_RANGE_3_LOWER                            (-1.57)
+#define HAND_POSE_ROLL_RANGE_3_UPPER                            (-2.84)
+#define HAND_POSE_ROLL_RANGE_3_LOWER                            (-3.14)
 
-#define HAND_POSE_ROLL_RANGE_4_UPPER                            (-1.57)
-#define HAND_POSE_ROLL_RANGE_4_LOWER                            (-1.87)
+#define HAND_POSE_ROLL_RANGE_4_UPPER                            (3.14)
+#define HAND_POSE_ROLL_RANGE_4_LOWER                            (2.84)
 
 
 #define HAND_POSE_PITCH_RANGE_1_UPPER                            (1.57)          
@@ -265,6 +265,14 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
     mat3 hand_rotation_matrix ;
     hand_rotation.ToRotationMatrix(hand_rotation_matrix);
     hand_rotation_matrix.ToEulerAngles(hand_yaw,hand_pitch,hand_roll);
+    if(hand_roll > 0)
+    {
+        hand_roll = 3.14 - hand_roll ;
+    }
+    else
+    {
+        hand_roll = -3.14 + hand_roll ;
+    }
 
     Quaternion object_rotation = objTran.rotation();
     vec3 object_translation = objTran.translation();
@@ -334,11 +342,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
                 grasp_roll_exceeded = true ;
                 if(hand_roll >= 0)
                 {
-                    roll_violation_penalty = (hand_roll) * 100 ;
+                    roll_violation_penalty = (3.14 - hand_roll) * 100 ;
                 }
                 else
                 {
-                    roll_violation_penalty -= (hand_roll) * 100 ;
+                    roll_violation_penalty -= ( -3.14 + hand_roll) * 100 ;
                 }
             }
         }
