@@ -322,7 +322,7 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         isLegal = true;
         if(grasp_out_of_limit)
         {
-            if(grasp_x_axis_exceeded && grasp_pitch_exceeded && grasp_roll_exceeded && grasp_yaw_exceeded)
+            /*if(grasp_x_axis_exceeded && grasp_pitch_exceeded && grasp_roll_exceeded && grasp_yaw_exceeded)
             {
                 stateEnergy = energy() + position_violation_penalty + pitch_violation_penalty + roll_violation_penalty + yaw_violation_penalty ;
             }
@@ -365,8 +365,8 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             else if(grasp_x_axis_exceeded && grasp_yaw_exceeded)
             {
                 stateEnergy = energy() + position_violation_penalty + yaw_violation_penalty ;   //Adding Penalty and increasing energy
-            }
-            else if(grasp_x_axis_exceeded)
+            }*/
+            if(grasp_x_axis_exceeded)
             {
                 stateEnergy = energy() + position_violation_penalty ;   //Adding Penalty and increasing energy
             }
@@ -374,14 +374,14 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             {
                 stateEnergy = energy() + pitch_violation_penalty  ;   //Adding Penalty and increasing energy
             }
-            else if(grasp_roll_exceeded)
+            /*else if(grasp_roll_exceeded)
             {
                 stateEnergy = energy() + roll_violation_penalty ;   //Adding Penalty and increasing energy
             }
             else if(grasp_yaw_exceeded)
             {
                 stateEnergy = energy() + yaw_violation_penalty ;    //Adding Penalty and increasing energy
-            }
+            }*/
         }
         else
         {
