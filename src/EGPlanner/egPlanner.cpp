@@ -207,18 +207,12 @@ EGPlanner::checkTerminationConditions()
 	{
 		if((GetListEnergy(1,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (GetListEnergy(2,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) &&
 			(GetListEnergy(3,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED) && (GetListEnergy(4,&mBestList) < MINIMUM_GRASP_ENERGY_TO_BE_SEARCHED))
-			{
-				pausePlanner() ;
-				termination = true ;
-			}
+		{
+			//Top five grasp energy above 90 % then stop planning
+			pausePlanner() ;
+			termination = true ;
+		}
 	}
-	/*else if((mCurrentStep > 40000) && (mBestList.front()->getEnergy() > MAXIMUM_GRASP_ENERGY))
-	{
-		transf manual_hand_pose() ;
-
-		mHand->setTran();
-
-	}*/
 	if (termination) {
 		Q_EMIT complete();
 	}
