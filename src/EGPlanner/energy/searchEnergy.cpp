@@ -96,7 +96,7 @@ PROF_DECLARE(QS);
 #define HAND_POSE_YAW_RANGE_4_UPPER                             (-2.84)
 #define HAND_POSE_YAW_RANGE_4_LOWER                             (-3.14)
 
-#define OBJECT_GRASPING_DISTANCE                                (150)
+#define OBJECT_GRASPING_DISTANCE                                (180)
 
 
 //todo move this out of here
