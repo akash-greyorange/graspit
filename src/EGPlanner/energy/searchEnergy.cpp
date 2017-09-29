@@ -262,9 +262,9 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
         grasp_x_axis_exceeded = true ;
         position_violation_penalty = (hand_translation.x() - (object_translation.x() - OBJECT_GRASPING_DISTANCE)) * 100 ;
     }
-    else 
+    /*else 
     {
-        /*if(!(((hand_pitch >= HAND_POSE_PITCH_RANGE_1_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_1_UPPER)) || ((hand_pitch >= HAND_POSE_PITCH_RANGE_2_LOWER) &&
+        if(!(((hand_pitch >= HAND_POSE_PITCH_RANGE_1_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_1_UPPER)) || ((hand_pitch >= HAND_POSE_PITCH_RANGE_2_LOWER) &&
             (hand_pitch <= HAND_POSE_PITCH_RANGE_2_UPPER)) || ((hand_pitch >= HAND_POSE_PITCH_RANGE_3_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_3_UPPER))
             || ((hand_pitch >= HAND_POSE_PITCH_RANGE_4_LOWER) && (hand_pitch <= HAND_POSE_PITCH_RANGE_4_UPPER))))
         {
@@ -312,8 +312,8 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
                     roll_violation_penalty -= ( -3.14 + hand_roll) * 100 ;
                 }
             }
-        }*/
-    }
+        }
+    }*/
 
     if ( !state->execute() || !legal() ) {
         isLegal = false;
@@ -370,11 +370,11 @@ void SearchEnergy::analyzeState(bool &isLegal, double &stateEnergy, const GraspP
             {
                 stateEnergy = energy() + position_violation_penalty ;   //Adding Penalty and increasing energy
             }
-            else if(grasp_pitch_exceeded)
+            /*else if(grasp_pitch_exceeded)
             {
                 stateEnergy = energy() + pitch_violation_penalty  ;   //Adding Penalty and increasing energy
             }
-            /*else if(grasp_roll_exceeded)
+            else if(grasp_roll_exceeded)
             {
                 stateEnergy = energy() + roll_violation_penalty ;   //Adding Penalty and increasing energy
             }
